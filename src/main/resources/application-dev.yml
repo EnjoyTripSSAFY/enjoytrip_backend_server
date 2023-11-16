@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: ssafy
+    password: ssafy
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/ssafyweb?serverTimezone=UTC&characterEncoding=UTF-8
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
+  data:
+    web:
+      pageable:
+        max-page-size: 2000
+        default-page-size: 20
+        one-indexed-parameters: true
+
+mybatis:
+  type-aliases-package:
+  mapper-locations: /mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

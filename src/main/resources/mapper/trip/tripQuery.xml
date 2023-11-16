@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.trip.query.mapper.AttractionDao">
+    <resultMap id="attractionInfoResultMap" type="com.ssafy.enjoytrip_springboot.trip.common.dto.AttractionInfoDto">
+        <id property="contentId" column="content_id"/>
+        <result property="contentTypeId" column="content_type_id"/>
+        <result property="title" column="title"/>
+        <result property="addr1" column="addr1"/>
+        <result property="addr2" column="addr2"/>
+        <result property="zipcode" column="zipcode"/>
+        <result property="tel" column="tel"/>
+        <result property="firstImage" column="first_image"/>
+        <result property="firstImage2" column="first_image2"/>
+        <result property="readcount" column="readcount"/>
+        <result property="sidoCode" column="sido_code"/>
+        <result property="gugunCode" column="gugun_code"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="mlevel" column="mlevel"/>
+    </resultMap>
+
+
+    <select id="attractionList" parameterType="com.ssafy.enjoytrip_springboot.trip.common.dto.AttractionRequest"
+            resultMap="attractionInfoResultMap">
+        SELECT *
+        FROM attraction_info ai
+        <where>
+            <if test="areaCode != 0">
+                AND ai.sido_code = #{areaCode}
+            </if>
+            <if test="sigunguCode != 0">
+                AND ai.gugun_code = #{sigunguCode}
+            </if>
+            <if test="contentTypeId != 0">
+                AND ai.content_type_id = #{contentTypeId}
+            </if>
+        </where>
+        LIMIT #{start} , #{numOfRows}
+    </select>
+
+    <select id="searchByTitle" parameterType="com.ssafy.enjoytrip_springboot.trip.common.dto.AttractionRequest"
+            resultMap="attractionInfoResultMap">
+        SELECT * FROM attraction_info ai
+        <where>
+            <if test="areaCode != 0">
+                ai.sido_code = #{areaCode}
+            </if>
+            <if test="word != null and word != ''">
+                AND ai.title like CONCAT('%',#{word},'%')
+            </if>
+        </where>
+        LIMIT #{start} , #{numOfRows}
+
+    </select>
+
+
+    <select id="stateList" resultType="com.ssafy.enjoytrip_springboot.trip.common.dto.SidoDto">
+        SELECT *
+        FROM sido s
+    </select>
+
+    <select id="cityList" parameterType="int"
+            resultType="com.ssafy.enjoytrip_springboot.trip.common.dto.GugunDto">
+        SELECT *
+        FROM gugun g
+        WHERE g.sido_code = #{stateCode}
+    </select>
+
+</mapper>

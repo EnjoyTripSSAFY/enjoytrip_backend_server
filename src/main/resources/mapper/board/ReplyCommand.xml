@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.board.command.mapper.ReplyCommandMapper">
+
+    <insert id="writeReply" parameterType="com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto"
+            useGeneratedKeys="true"  keyProperty="no" keyColumn="no">
+        insert into reply (board_id, user_id, content, registered_date, parent_no)
+        values (#{boardId}, #{userId}, #{content}, #{registerTime}, #{parentNo})
+    </insert>
+
+    <update id="deleteReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.ReplyDeleteRequest">
+        update reply
+        set isDeleted = true
+        where board_id = #{boardNo} and no = #{no}
+    </update>
+
+    <update id="blockReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.BoardModifyRequest">
+        update reply
+        set isBlocked = not isBlocked
+        where board_id = #{boardNo} and no = #{no}
+    </update>
+
+</mapper>

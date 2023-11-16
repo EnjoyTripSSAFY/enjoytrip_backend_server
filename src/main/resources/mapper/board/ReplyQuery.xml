@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.board.query.mapper.ReplyQueryMapper">
+    <resultMap id="replyResultMap" type="com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto">
+        <id property="no" column="reply_no"/>
+        <result property="level" column="reply_level"/>
+        <result property="boardId" column="board_id"/>
+        <result property="parentNo" column="parent_no"/>
+        <result property="userId" column="reply_user_id"/>
+        <result property="isDeleted" column="isDeleted"/>
+        <result property="content" column="reply_content"/>
+        <result property="registerTime" column="reply_register_time"/>
+    </resultMap>
+
+    <select id="getReplyList" parameterType="int" resultMap="replyResultMap">
+        with recursive comments as
+                           (select 1                as level
+                                 , r.no
+                                 , r.parent_no
+                                 , concat('', r.no) as sort
+                                 , r.board_id
+                                 , r.content
+                                 , r.user_id
+                                 , r.registered_date
+                            from reply r
+                            where r.parent_no is null
+                            union all
+                            select comments.level + 1              as level
+                                 , r.no
+                                 , r.parent_no
+                                 , concat('', comments.sort, r.no) as sort
+                                 , r.board_id
+                                 , r.content
+                                 , r.user_id
+                                 , r.registered_date
+                            from reply r,
+                                 comments
+                            where comments.no = r.parent_no)
+
+        SELECT c.no              AS reply_no,
+               c.level           as reply_level,
+               c.board_id,
+               c.parent_no,
+               c.user_id         as reply_user_id,
+               c.content         as reply_content,
+               c.registered_date as reply_register_time
+        FROM comments c
+        WHERE c.board_id = #{no}
+        order by c.no,c.sort
+    </select>
+
+    <select id="getReply" resultMap="replyResultMap">
+        SELECT r.no              AS reply_no,
+               r.board_id,
+               r.parent_no,
+               r.user_id         as reply_user_id,
+               r.content         as reply_content,
+               r.registered_date as reply_register_time,
+               r.isDeleted,
+               r.isBlocked
+        FROM reply r
+        WHERE board_id = #{boardNo} and no = #{no}
+    </select>
+</mapper>

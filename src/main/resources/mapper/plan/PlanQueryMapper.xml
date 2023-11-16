@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.plan.query.mapper.PlanQueryMapper">
+
+    <select id="listTripPlan" parameterType="Long" resultType="com.ssafy.enjoytrip_springboot.plan.query.dto.response.listTripPlanResDto">
+        select no, title, describe
+          from trip_plan
+         where user_no = #{userNo}
+    </select>
+
+
+
+</mapper>
