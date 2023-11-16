@@ -25,6 +25,6 @@ public class GetMemberDto {
     @ApiModelProperty(value = "이메일 domain", required = true)
     private String email_domain;
     @ApiModelProperty(value = "가입일", required = true)
-    private String joinDate;
+    private String joinedTime;
 
 }

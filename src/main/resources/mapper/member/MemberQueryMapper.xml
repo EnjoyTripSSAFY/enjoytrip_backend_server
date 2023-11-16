@@ -5,7 +5,7 @@
 <mapper namespace="com.ssafy.enjoytrip_springboot.member.query.mapper.MemberQueryMapper">
 
     <select id="getMember" parameterType="string" resultType="com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto">
-        select user_id, user_password, user_name, email_id, email_domain, join_date
+        select user_id, user_password, user_name, email_id, email_domain, joined_time
           from members
          where user_id = #{userId}
     </select>

@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip_springboot.plan.query.controller;
 
 import com.ssafy.enjoytrip_springboot.common.response.SuccessResponse;
+import com.ssafy.enjoytrip_springboot.plan.query.dto.response.listPlanPerDateJoinDetailList;
 import com.ssafy.enjoytrip_springboot.plan.query.dto.response.listTripPlanResDto;
 import com.ssafy.enjoytrip_springboot.plan.query.service.PlanQueryService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +34,22 @@ public class PlanQueryController {
     public ResponseEntity<?> listTripPlan(@PathVariable("userNo") Long userNo) {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
-        Map<String, Object> resultMap = new HashMap<>();
         List<listTripPlanResDto> resultList = planQueryService.listTripPlan(userNo);
-        resultMap.put("result", resultList);
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "여행계획 리스트 조회 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "여행계획 리스트 조회 성공", resultList));
     }
+
+    @GetMapping("/detail/{tripPlanNo}")
+    public ResponseEntity<?> listPlanPerDateAndDetail(@PathVariable("tripPlanNo") Long tripPlanNo) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        List<listPlanPerDateJoinDetailList> resultList = planQueryService.listPlanPerDateAndDetail(tripPlanNo);
+
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "여행 세부 정보 조회 성공", resultList));
+    }
+
 }

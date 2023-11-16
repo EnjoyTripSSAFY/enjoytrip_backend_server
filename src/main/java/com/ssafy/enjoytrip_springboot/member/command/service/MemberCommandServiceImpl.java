@@ -61,7 +61,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                     .userName(find.getUserName())
                     .emailId(find.getEmailId())
                     .email_domain(find.getEmail_domain())
-                    .joinDate(find.getJoinDate()).build();
+                    .joinDate(find.getJoinedTime()).build();
 
             return loginResponseDto;
         }

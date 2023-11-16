@@ -15,6 +15,6 @@ public class SuccessResponse {
 
     HttpStatus httpStatus;
     String msg;
-    Map<String, Object> result;
+    Object result;
 
 }

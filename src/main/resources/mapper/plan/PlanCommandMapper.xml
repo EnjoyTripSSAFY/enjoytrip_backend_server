@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.plan.command.mapper.PlanCommandMapper">
+
+    <insert id="createTripPlan" parameterType="com.ssafy.enjoytrip_springboot.plan.command.dto.CreateTripPlanDto">
+        insert into trip_plan
+        (user_no, title, describ)
+        values
+        (#{userNo}, #{title}, #{describ})
+    </insert>
+
+    <insert id="createPlanPerDate" parameterType="com.ssafy.enjoytrip_springboot.plan.command.dto.CreatePlanPerDateDto">
+        insert into plan_per_date
+        (trip_plan_no, plan_time)
+        values
+        (#{tripPlanNo}, #{planTime})
+    </insert>
+
+    <insert id="createDetailPlan" parameterType="com.ssafy.enjoytrip_springboot.plan.command.dto.CreateDetailPlanDto">
+        insert into detail_plan
+        (plan_per_date_no, cost, start_time, end_time, content_id)
+        values
+        (#{planPerDateNo}, #{cost}, #{startTime}, #{endTime}, #{contentId})
+    </insert>
+
+</mapper>

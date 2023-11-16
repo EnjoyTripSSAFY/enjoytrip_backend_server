@@ -4,12 +4,32 @@
 
 <mapper namespace="com.ssafy.enjoytrip_springboot.plan.query.mapper.PlanQueryMapper">
 
+    <resultMap id="listPlanPerDateAndDetailResultMap" type="com.ssafy.enjoytrip_springboot.plan.query.dto.response.listPlanPerDateJoinDetailList">
+        <result column="no" property="no"/>
+        <result column="trip_plan_no" property="tripPlanNo"/>
+        <result column="plan_time" property="planTime"/>
+        <collection property="detailPlans" ofType="com.ssafy.enjoytrip_springboot.plan.common.dto.DetailPlanDto">
+            <result column="no" property="no"/>
+            <result column="plan_per_date_no" property="planPerDateNo"/>
+            <result column="cost" property="cost"/>
+            <result column="start_time" property="startTime"/>
+            <result column="end_time" property="endTime"/>
+            <result column="content_id" property="contentId"/>
+        </collection>
+    </resultMap>
+
     <select id="listTripPlan" parameterType="Long" resultType="com.ssafy.enjoytrip_springboot.plan.query.dto.response.listTripPlanResDto">
-        select no, title, describe
+        select no, title, describ, created_time
           from trip_plan
          where user_no = #{userNo}
     </select>
 
+    <select id="listPlanPerDateAndDetail" parameterType="Long" resultMap="listPlanPerDateAndDetailResultMap">
+        select ppd.no, ppd.trip_plan_no, ppd.plan_time, dp.no, dp.plan_per_date_no, dp.cost, dp.start_time, dp.end_time, dp.content_id
+          from plan_per_date ppd
+          left join detail_plan dp on (ppd.no = dp.plan_per_date_no)
+         where ppd.trip_plan_no = #{tripPlanNo}
+    </select>
 
 
 </mapper>

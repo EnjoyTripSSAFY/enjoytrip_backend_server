@@ -32,11 +32,9 @@ public class MemberQueryController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        Map<String, Object> resultMap = new HashMap<>();
         GetMemberDto find = queryService.getMember(userId);
-        resultMap.put("result", find);
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "유저 조회 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "유저 조회 성공", find));
     }
 
 }
