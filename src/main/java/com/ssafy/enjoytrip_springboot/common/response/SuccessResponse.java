@@ -17,4 +17,8 @@ public class SuccessResponse {
     String msg;
     Object result;
 
+    public SuccessResponse(HttpStatus httpStatus, String msg){
+        this.httpStatus = httpStatus;
+        this.msg = msg;
+    }
 }

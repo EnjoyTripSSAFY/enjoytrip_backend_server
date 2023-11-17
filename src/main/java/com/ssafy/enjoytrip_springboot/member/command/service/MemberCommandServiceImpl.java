@@ -49,25 +49,25 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         }
     }
 
-    @Override
-    public LoginResponseDto loginMember(LoginRequestDto loginDto) {
-
-        GetMemberDto find = queryService.getMember(loginDto.getUserId());
-
-        if(loginDto.getUserPassword().equals(find.getUserPassword())){
-
-            LoginResponseDto loginResponseDto = LoginResponseDto.builder()
-                    .userId(find.getUserId())
-                    .userName(find.getUserName())
-                    .emailId(find.getEmailId())
-                    .email_domain(find.getEmail_domain())
-                    .joinDate(find.getJoinedTime()).build();
-
-            return loginResponseDto;
-        }
-
-        throw new MemberException("회원 정보가 일치하지 않습니다.");
-    }
+//    @Override
+//    public LoginResponseDto loginMember(LoginRequestDto loginDto) {
+//
+//        GetMemberDto find = queryService.getMember(loginDto.getUserId());
+//
+//        if(loginDto.getUserPassword().equals(find.getUserPassword())){
+//
+//            LoginResponseDto loginResponseDto = LoginResponseDto.builder()
+//                    .userId(find.getUserId())
+//                    .userName(find.getUserName())
+//                    .emailId(find.getEmailId())
+//                    .email_domain(find.getEmail_domain())
+//                    .joinDate(find.getJoinedTime()).build();
+//
+//            return loginResponseDto;
+//        }
+//
+//        throw new MemberException("회원 정보가 일치하지 않습니다.");
+//    }
 
 
     @Override

@@ -26,20 +26,20 @@ public class MemberCommandController {
 
     private final MemberCommandService memberCommandService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginMember(@RequestBody LoginRequestDto loginDto) {
+//    @PostMapping("/login")
+//    public ResponseEntity<?> loginMember(@RequestBody LoginRequestDto loginDto) {
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+//
+//        Map<String, Object> resultMap = new HashMap<>();
+//        LoginResponseDto memberInfo = memberCommandService.loginMember(loginDto);
+//        resultMap.put("result", memberInfo);
+//
+//        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "login 성공", resultMap));
+//    }
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-
-        Map<String, Object> resultMap = new HashMap<>();
-        LoginResponseDto memberInfo = memberCommandService.loginMember(loginDto);
-        resultMap.put("result", memberInfo);
-
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "login 성공", resultMap));
-    }
-
-    @PostMapping()
+    @PostMapping("/join")
     public ResponseEntity<?> joinMember(@RequestBody JoinMemberDto joinMemberDto) {
 
         HttpHeaders headers = new HttpHeaders();
