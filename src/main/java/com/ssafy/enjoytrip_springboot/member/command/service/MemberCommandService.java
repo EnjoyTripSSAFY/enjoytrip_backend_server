@@ -9,7 +9,7 @@ public interface MemberCommandService {
 
     int idCheck(String userId);
     int joinMember(JoinMemberDto joinMemberDto);
-    LoginResponseDto loginMember(LoginRequestDto loginDto);
+//    LoginResponseDto loginMember(LoginRequestDto loginDto);
 
     int updateMember(UpdateMemberDto updateMemberDto);
     int deleteMember(String userId);

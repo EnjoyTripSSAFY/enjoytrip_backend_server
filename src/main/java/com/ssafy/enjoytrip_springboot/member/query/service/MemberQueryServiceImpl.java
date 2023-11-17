@@ -32,7 +32,7 @@ public class MemberQueryServiceImpl implements MemberQueryService{
     }
 
     @Override
-    public int idCheck(String userId) throws SQLException {
+    public int idCheck(String userId) {
 
         try{
             return queryMapper.idCheck(userId);
