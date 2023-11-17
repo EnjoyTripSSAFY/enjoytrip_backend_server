@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.common.s3.mapper.UploadFileMapper">
+
+    <insert id="insertFile" parameterType="string"
+            useGeneratedKeys="true"  keyProperty="no" keyColumn="no">
+        insert into file_info (hotplace_no, board_no, original_file, save_file)
+            value (null, null, #{originalFile}, #{saveFile})
+    </insert>
+
+    <select id="findFileData" parameterType="com.ssafy.enjoytrip_springboot.common.s3.Dto.UploadFileSearch">
+        select no, hotplace_no as hotplaceNo, board_no as boardNo, original_file as originalFile, save_file as saveFile
+        from file_info
+        where no = #{no}
+           or original_file = #{originalFile}
+    </select>
+</mapper>
