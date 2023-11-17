@@ -11,75 +11,25 @@
         <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="hit" column="hit"/>
-        <result property="registerTime" column="register_time"/>
-        <collection property="replies" resultMap="replyResultMap"/>
-    </resultMap>
-
-    <resultMap id="replyResultMap" type="com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto">
-        <id property="no" column="reply_no"/>
-        <result property="level" column="reply_level"/>
-        <result property="boardId" column="board_id"/>
-        <result property="parentNo" column="parent_no"/>
-        <result property="userId" column="reply_user_id"/>
-        <result property="isDeleted" column="isDeleted"/>
-        <result property="content" column="reply_content"/>
-        <result property="registerTime" column="reply_register_time"/>
-        <result property="isBlocked" column="isBlocked"/>
-        <result property="isDeleted" column="isDeleted"/>
+        <result property="registerTime" column="registered_time"/>
+        <result property="isBlocked" column="is_blocked"/>
     </resultMap>
 
     <select id="getArticle" parameterType="int" resultMap="boardResultMap">
-        with recursive comments as
-                           (select 1                as level
-                                 , r.no
-                                 , r.parent_no
-                                 , concat('', r.no) as sort
-                                 , r.board_id
-                                 , r.content
-                                 , r.user_id
-                                 , r.registered_date
-                                 , r.isBlocked
-                                 , r.isDeleted
-                            from reply r
-                            where r.parent_no is null
-                            union all
-                            select comments.level + 1              as level
-                                 , r.no
-                                 , r.parent_no
-                                 , concat('', comments.sort, r.no) as sort
-                                 , r.board_id
-                                 , r.content
-                                 , r.user_id
-                                 , r.registered_date
-                                 , r.isBlocked
-                                 , r.isDeleted
-                            from reply r,
-                                 comments
-                            where comments.no = r.parent_no)
-
         SELECT b.no,
                b.user_id,
                b.title,
                b.content,
                b.hit,
-               b.register_time,
-               c.no            AS reply_no,
-               c.level         as reply_level,
-               c.board_id,
-               c.parent_no,
-               c.user_id       as reply_user_id,
-               c.content       as reply_content,
-               c.registered_date as reply_register_time,
-               c.isBlocked,
-               c.isDeleted
+               b.registered_time
         FROM board b
-                 LEFT JOIN comments c ON b.no = c.board_id
         WHERE b.no = #{no}
-        order by c.no,c.sort
+        ORDER BY no DESC
+        LIMIT #{start}, #{listsize}
     </select>
 
     <select id="listArticle" parameterType="map" resultMap="boardResultMap">
-        SELECT no, user_id, title, content, hit, register_time
+        SELECT no, user_id, title, content, hit, registered_time
         FROM board
         <where>
             <if test="key != null and word != null">
@@ -96,9 +46,9 @@
 
                 </choose>
             </if>
-            <if test="grade != 'ADMIN">
-                isBlocked = false
-            </if>
+<!--            <if test="grade != 'ADMIN">-->
+<!--                isBlocked = false-->
+<!--            </if>-->
         </where>
         ORDER BY no DESC
         LIMIT #{start}, #{listsize}
@@ -117,9 +67,9 @@
                     AND ${key} = #{word}
                 </if>
             </if>
-            <if test="grade != 'ADMIN">
-                isBlocked = false
-            </if>
+<!--            <if test="grade != 'ADMIN">-->
+<!--                isBlocked = false-->
+<!--            </if>-->
         </where>
     </select>
 

@@ -32,6 +32,4 @@ public class BoardDto {
 	private boolean isDeleted;
 	@ApiModelProperty(value = "차단여부")
 	private boolean isBlocked;
-	@ApiModelProperty(value = "댓글들", required = false, hidden = true)
-	private List<ReplyDto> replies;
 }

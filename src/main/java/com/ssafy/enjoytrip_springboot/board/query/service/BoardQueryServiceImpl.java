@@ -130,8 +130,7 @@ public class BoardQueryServiceImpl implements BoardQueryService {
     @Override
     public int getTotalArticleCount(Map<String, Object> param){
         try {
-            int count = query.getTotalArticleCount(param);
-            return (count - 1) /  SizeConstant.LIST_SIZE + 1;
+            return query.getTotalArticleCount(param);
         } catch (SQLException e) {
             throw new BoardException("해당 하는 게시글이 없음");
         }

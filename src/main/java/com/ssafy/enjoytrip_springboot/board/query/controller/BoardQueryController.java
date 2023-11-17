@@ -4,12 +4,9 @@ import com.ssafy.enjoytrip_springboot.board.common.dto.BoardDto;
 import com.ssafy.enjoytrip_springboot.board.query.dto.BoardListDto;
 import com.ssafy.enjoytrip_springboot.board.query.dto.PageOpDto;
 import com.ssafy.enjoytrip_springboot.board.query.service.BoardQueryService;
-import com.ssafy.enjoytrip_springboot.common.response.ErrorResponse;
 import com.ssafy.enjoytrip_springboot.common.response.SuccessResponse;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -47,7 +44,7 @@ public class BoardQueryController {
             }
     )
     @GetMapping
-    public ResponseEntity<?> listArticle(@RequestBody PageOpDto pageOpDto) {
+    public ResponseEntity<?> listArticle(PageOpDto pageOpDto) {
         HttpHeaders headers = new HttpHeaders();
 
         Map<String, Object> resultMap = new HashMap<>();
@@ -58,13 +55,11 @@ public class BoardQueryController {
 
         BoardListDto result = BoardListDto.builder()
                 .boards(boardDtos)
-                .currentPage(pageOpDto.getPgno())
+                .currentPage(pageOpDto.getCurrentPage())
                 .totalPageCount(totalCount)
                 .build();
 
-        resultMap.put("result", result);
-
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article list 조회 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article list 조회 성공", result));
     }
 
     @GetMapping("/{articleNo}")
@@ -73,11 +68,9 @@ public class BoardQueryController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        Map<String, Object> resultMap = new HashMap<>();
         BoardDto result = queryService.getArticle(articleNo);
-        resultMap.put("result", result);
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article 조회 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article 조회 성공", result));
 
     }
 }

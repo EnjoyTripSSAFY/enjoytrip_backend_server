@@ -32,10 +32,7 @@ public class ReplyQueryController {
     public ResponseEntity<?> getReplyList(@PathVariable int article_no){
         List<ReplyDto> result = replyQueryService.getReplies(article_no);
 
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("result", result);
-
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article 댓글 리스트 조회 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article 댓글 리스트 조회 성공", result));
 
     }
 }
