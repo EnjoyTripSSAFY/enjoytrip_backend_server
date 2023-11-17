@@ -29,6 +29,7 @@ public class BoardModifyRequest {
 
     public BoardDto parse(){
         return BoardDto.builder()
+                .no(this.getNo())
                 .title(this.getTitle())
                 .content(this.getContent())
                 .build();

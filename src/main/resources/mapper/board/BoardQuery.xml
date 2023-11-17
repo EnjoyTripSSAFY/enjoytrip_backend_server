@@ -24,8 +24,6 @@
                b.registered_time
         FROM board b
         WHERE b.no = #{no}
-        ORDER BY no DESC
-        LIMIT #{start}, #{listsize}
     </select>
 
     <select id="listArticle" parameterType="map" resultMap="boardResultMap">

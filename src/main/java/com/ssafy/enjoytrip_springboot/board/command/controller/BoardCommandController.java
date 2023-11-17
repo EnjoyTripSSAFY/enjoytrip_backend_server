@@ -7,6 +7,7 @@ import com.ssafy.enjoytrip_springboot.board.common.dto.BoardDto;
 import com.ssafy.enjoytrip_springboot.common.response.SuccessResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/board")
+@Slf4j
 public class BoardCommandController {
     private final BoardCommandService commandService;
 
