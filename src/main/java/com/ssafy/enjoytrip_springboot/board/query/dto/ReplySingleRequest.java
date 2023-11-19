@@ -12,7 +12,7 @@ public class ReplySingleRequest {
     private int boardNo;
     private int no;
 
-    public ReplyDeleteRequest pasrse() {
+    public ReplyDeleteRequest parse() {
         return ReplyDeleteRequest.builder()
                 .boardNo(this.boardNo)
                 .no(no)

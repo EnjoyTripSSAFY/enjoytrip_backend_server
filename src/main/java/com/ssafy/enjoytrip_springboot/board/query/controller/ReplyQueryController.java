@@ -1,6 +1,6 @@
 package com.ssafy.enjoytrip_springboot.board.query.controller;
 
-import com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto;
+import com.ssafy.enjoytrip_springboot.board.query.dto.ReplyResponseDTO;
 import com.ssafy.enjoytrip_springboot.board.query.service.ReplyQueryService;
 import com.ssafy.enjoytrip_springboot.common.response.SuccessResponse;
 import io.swagger.annotations.Api;
@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 
 @Api(tags = { "1-3. ReplyQueryController" })
@@ -29,8 +28,8 @@ public class ReplyQueryController {
 
 
     @GetMapping("/{article_no}")
-    public ResponseEntity<?> getReplyList(@PathVariable int article_no){
-        List<ReplyDto> result = replyQueryService.getReplies(article_no);
+    public ResponseEntity<?> getReplyList(@PathVariable int article_no) throws SQLException {
+        List<ReplyResponseDTO> result = replyQueryService.getReplies(article_no);
 
         return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "article 댓글 리스트 조회 성공", result));
 

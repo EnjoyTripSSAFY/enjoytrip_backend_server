@@ -1,24 +1,32 @@
 package com.ssafy.enjoytrip_springboot.board.command.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class ReplyWriteRequest {
-    private int boardId;
+
+//    @JsonProperty("boardNo")
+    private long boardNo;
+
+//    @JsonProperty("userId")
     private String userId;
+
+//    @JsonProperty("content")
     private String content;
-    private Integer parentNo;
+
+//    @JsonProperty("parentNo")
+    private Long parentNo;
 
     public ReplyDto parse(){
         return ReplyDto.builder()
-                .boardId(this.boardId)
+                .boardNo(this.boardNo)
                 .userId(this.userId)
                 .content(this.content)
                 .parentNo(this.parentNo)

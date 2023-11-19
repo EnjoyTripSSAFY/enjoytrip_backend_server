@@ -25,7 +25,7 @@ class ReplyCommandServiceImplTest {
                 .no(12)
                 .build();
 
-        assertThrows(BoardException.class, () -> {service.deleteArticle(param);});
+        assertThrows(BoardException.class, () -> {service.deleteReply(param);});
     }
 
     @Test

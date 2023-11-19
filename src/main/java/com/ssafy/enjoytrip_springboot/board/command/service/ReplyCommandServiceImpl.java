@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip_springboot.board.command.service;
 
+import com.ssafy.enjoytrip_springboot.board.command.dto.ReplyBlockRequest;
 import com.ssafy.enjoytrip_springboot.board.command.dto.ReplyDeleteRequest;
 import com.ssafy.enjoytrip_springboot.board.command.dto.ReplyModifyRequest;
 import com.ssafy.enjoytrip_springboot.board.command.mapper.ReplyCommandMapper;
@@ -16,7 +17,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     private final ReplyQueryMapper queryMapper;
 
     @Override
-    public Long writeArticle(ReplyDto replyDto){
+    public Long writeReply(ReplyDto replyDto){
         try{
             Long l = commandMapper.writeReply(replyDto);
             return (long) replyDto.getNo();
@@ -26,7 +27,7 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     }
 
     @Override
-    public void deleteArticle(ReplyDeleteRequest no){
+    public void deleteReply(ReplyDeleteRequest no){
         try{
             ReplyDto replyDto = queryMapper.getReply(no.parse())
                     .orElseThrow(() -> new BoardException("해당 댓글이 존재하지 않습니다."));
@@ -38,7 +39,17 @@ public class ReplyCommandServiceImpl implements ReplyCommandService {
     }
 
     @Override
-    public int blockArticle(ReplyModifyRequest request) {
+    public int modifyReply(ReplyModifyRequest request) {
+        try {
+            commandMapper.modifyReply(request);
+            return request.getNo();
+        } catch (Exception e){
+            throw new BoardException("댓글을 수정 할 수 없습니다.");
+        }
+    }
+
+    @Override
+    public int blockReply(ReplyBlockRequest request) {
         try {
             commandMapper.blockReply(request);
 

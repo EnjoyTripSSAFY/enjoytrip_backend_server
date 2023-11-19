@@ -6,20 +6,29 @@
 
     <insert id="writeReply" parameterType="com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto"
             useGeneratedKeys="true"  keyProperty="no" keyColumn="no">
-        insert into reply (board_id, user_id, content, registered_date, parent_no)
-        values (#{boardId}, #{userId}, #{content}, #{registerTime}, #{parentNo})
+        insert into reply (board_no, user_id, content, registered_time, parent_no)
+        values (#{boardNo}, #{userId}, #{content}, #{registerTime}, #{parentNo})
     </insert>
 
     <update id="deleteReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.ReplyDeleteRequest">
         update reply
-        set isDeleted = true
-        where board_id = #{boardNo} and no = #{no}
+        set is_deleted = true
+        where board_no = #{boardNo} and no = #{no}
     </update>
 
-    <update id="blockReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.BoardModifyRequest">
+    <update id="blockReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.ReplyBlockRequest"
+            keyProperty="no" keyColumn="no">
         update reply
-        set isBlocked = not isBlocked
-        where board_id = #{boardNo} and no = #{no}
+        set is_blocked = not is_blocked
+        where board_no = #{boardNo} and no = #{no}
+    </update>
+
+    <update id="modifyReply" parameterType="com.ssafy.enjoytrip_springboot.board.command.dto.ReplyModifyRequest"
+            keyProperty="no" keyColumn="no">
+
+        update reply
+        set content = #{content}
+        where board_no = #{boardNo} and no = #{no}
     </update>
 
 </mapper>

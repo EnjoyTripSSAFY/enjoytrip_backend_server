@@ -1,34 +1,40 @@
 package com.ssafy.enjoytrip_springboot.board.query.service;
 
-import com.ssafy.enjoytrip_springboot.board.common.dto.BoardDto;
 import com.ssafy.enjoytrip_springboot.board.common.dto.ReplyDto;
-import com.ssafy.enjoytrip_springboot.board.common.exception.BoardException;
-import com.ssafy.enjoytrip_springboot.board.query.dto.ReplySingleRequest;
+import com.ssafy.enjoytrip_springboot.board.query.dto.ReplyResponseDTO;
 import com.ssafy.enjoytrip_springboot.board.query.mapper.ReplyQueryMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+
+import static com.ssafy.enjoytrip_springboot.board.query.dto.ReplyResponseDTO.convertCommentToDto;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ReplyQueryServiceImpl implements ReplyQueryService {
-
     private final ReplyQueryMapper queryMapper;
 
     @Override
-    public List<ReplyDto> getReplies(int articleNo) {
-        try {
-            return queryMapper.getReplyList(articleNo);
+    public List<ReplyResponseDTO> getReplies(int no) throws SQLException {
+        List<ReplyDto> comments = queryMapper.getReplyList(no);
 
-        } catch (SQLException e) {
-            throw new BoardException("댓글을 받아 올 수 없습니다");
-        }
+        List<ReplyResponseDTO> replyResponseDTOList = new ArrayList<>();
+        Map<Long, ReplyResponseDTO> commentDTOHashMap = new HashMap<>();
+
+        comments.forEach(c -> {
+            ReplyResponseDTO replyResponseDTO = convertCommentToDto(c);
+            commentDTOHashMap.put(replyResponseDTO.getId(), replyResponseDTO);
+            if (c.getParentNo() != null) {
+                commentDTOHashMap.get(c.getParentNo())
+                        .getChildren().add(replyResponseDTO);}
+            else replyResponseDTOList.add(replyResponseDTO);
+        });
+        return replyResponseDTOList;
+
     }
-
 }
