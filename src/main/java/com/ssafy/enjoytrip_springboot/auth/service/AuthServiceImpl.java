@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ssafy.enjoytrip_springboot.auth.dto.SaveRefreshTokenDto;
 import com.ssafy.enjoytrip_springboot.auth.dto.UserAuthDto;
+import com.ssafy.enjoytrip_springboot.auth.dto.UserInfoDto;
 import com.ssafy.enjoytrip_springboot.auth.jwt.JwtUtil;
 import com.ssafy.enjoytrip_springboot.auth.mapper.AuthMapper;
 import com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto;
@@ -75,10 +76,13 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    /**
-     * 사용할 서비스
-     */
-    public String getServerInfo() {
-        return "user Info 반환";
+    @Override
+    public UserInfoDto getInfo(String userId) {
+
+        try {
+            return authMapper.getInfo(userId);
+        } catch (SQLException e) {
+            throw new RuntimeException("getInfo 에러");
+        }
     }
 }

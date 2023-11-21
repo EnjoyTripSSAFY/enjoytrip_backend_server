@@ -3,24 +3,20 @@ package com.ssafy.enjoytrip_springboot.auth.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Builder
-public class UserAuthDto {
+public class UserInfoDto {
 
-    @JsonProperty("userId")
     private String userId;
-
-    @JsonProperty("userPassword")
     private String userPassword;
-
-    @JsonProperty("accessToken")
-    private String accessToken;
-
-    @JsonProperty("refreshToken")
-    private String refreshToken;
-
+    private String userName;
+    private String email_id;
+    private String email_domain;
+    private Timestamp joinedTime;
+    private String userRole;
 }

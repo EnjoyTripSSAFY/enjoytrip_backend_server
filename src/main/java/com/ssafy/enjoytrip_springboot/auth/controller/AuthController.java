@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip_springboot.auth.controller;
 
 import com.ssafy.enjoytrip_springboot.auth.dto.UserAuthDto;
+import com.ssafy.enjoytrip_springboot.auth.dto.UserInfoDto;
 import com.ssafy.enjoytrip_springboot.auth.dto.UserLoginResponseDto;
 import com.ssafy.enjoytrip_springboot.auth.jwt.JwtUtil;
 import com.ssafy.enjoytrip_springboot.auth.service.AuthServiceImpl;
@@ -81,10 +82,10 @@ public class AuthController {
         return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "로그아웃 성공"));
     }
 
-    @GetMapping("/info")
-    public ResponseEntity<Map<String, Object>> getInfo(HttpServletRequest req) {
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("info", authService.getServerInfo());
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<?> getInfo(@PathVariable("userId") String userId) {
+        System.out.println("getInfo!!!");
+        UserInfoDto result = authService.getInfo(userId);
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "유저 조회 성공", result));
     }
 }
