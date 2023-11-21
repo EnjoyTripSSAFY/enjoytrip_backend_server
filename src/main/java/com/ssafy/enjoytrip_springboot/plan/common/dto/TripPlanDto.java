@@ -16,4 +16,5 @@ public class TripPlanDto {
     private String title;
     private String describ;
     private Timestamp createdTime;
+
 }

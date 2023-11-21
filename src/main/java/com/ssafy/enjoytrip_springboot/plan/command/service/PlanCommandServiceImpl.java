@@ -60,7 +60,7 @@ public class PlanCommandServiceImpl implements PlanCommandService{
             for(CreateDetailPlanDto dp : detailPlanDtoList) {
                 createDetailPlanResult = createDetailPlan(dp);
                 System.out.println("createDetailPlanResult : " + createDetailPlanResult);
-
+                System.out.println("dp = " + dp);
                 if(createDetailPlanResult == 0) {
                     throw new PlanException("세부 계획 데이터 생성 중 에러");
                 }
