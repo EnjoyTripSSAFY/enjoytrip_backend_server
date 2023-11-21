@@ -21,6 +21,7 @@ public class MemberQueryServiceImpl implements MemberQueryService{
 
         try{
             GetMemberDto member = queryMapper.getMember(userId);
+            System.out.println("member = " + member);
             if(member == null){
                 throw new MemberException("no member found");
             }

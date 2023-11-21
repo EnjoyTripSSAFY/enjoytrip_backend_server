@@ -34,6 +34,7 @@ public class AuthController {
     @PostMapping("/member/login")
     public ResponseEntity<?> login(@RequestBody UserAuthDto userAuthDto, HttpServletResponse res, HttpServletRequest req) {
 
+        System.out.println("userAuthDto = " + userAuthDto);
         UserAuthDto loginUser = authService.signin(userAuthDto.getUserId(), userAuthDto.getUserPassword());
         log.debug("loginUser = " + loginUser);
 
@@ -42,7 +43,7 @@ public class AuthController {
                 .refreshToken(loginUser.getRefreshToken())
                 .info(jwtUtil.checkAndGetClaims(loginUser.getAccessToken())).build();
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "로그인 성공", authInfo));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.CREATED, "로그인 성공", authInfo));
     }
 
     @PostMapping(value = "/member/refresh", headers = "refresh-token")
@@ -64,7 +65,7 @@ public class AuthController {
                     .accessToken(accessToken)
                     .info(jwtUtil.checkAndGetClaims(accessToken)).build();
 
-            return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.ACCEPTED, "토큰 다시 발행 및 로그인 성공", authInfo));
+            return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.CREATED, "토큰 다시 발행 및 로그인 성공", authInfo));
         }
         else{
             Map<String, String> resultMap = new HashMap<>();
@@ -77,13 +78,13 @@ public class AuthController {
     public ResponseEntity<?> logout(@PathVariable("userId") String userId) {
         log.debug("logout: {}", userId);
         authService.logout(userId);
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.ACCEPTED, "로그아웃 성공"));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "로그아웃 성공"));
     }
 
     @GetMapping("/info")
     public ResponseEntity<Map<String, Object>> getInfo(HttpServletRequest req) {
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("info", authService.getServerInfo());
-        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }
