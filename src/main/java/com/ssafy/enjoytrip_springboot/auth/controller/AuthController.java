@@ -42,7 +42,7 @@ public class AuthController {
                 .refreshToken(loginUser.getRefreshToken())
                 .info(jwtUtil.checkAndGetClaims(loginUser.getAccessToken())).build();
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "로그인 성공", authInfo));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.CREATED, "로그인 성공", authInfo));
     }
 
     @PostMapping(value = "/member/refresh", headers = "refresh-token")
