@@ -13,6 +13,7 @@ public class DetailPlanDto {
 
     private Long no;
     private Long planPerDateNo;
+    private String attractionName;
     private int cost;
     private Timestamp startTime;
     private Timestamp endTime;

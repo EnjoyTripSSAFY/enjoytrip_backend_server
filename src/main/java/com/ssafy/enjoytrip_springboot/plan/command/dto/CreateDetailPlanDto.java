@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 public class CreateDetailPlanDto {
 
     private Long planPerDateNo;
+    private String attractionName;
     private int cost;
     private Timestamp startTime;
     private Timestamp endTime;

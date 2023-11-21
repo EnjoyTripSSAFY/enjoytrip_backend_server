@@ -20,9 +20,9 @@
 
     <insert id="createDetailPlan" parameterType="com.ssafy.enjoytrip_springboot.plan.command.dto.CreateDetailPlanDto">
         insert into detail_plan
-        (plan_per_date_no, cost, start_time, end_time, content_id)
+        (plan_per_date_no, attraction_name, cost, start_time, end_time, content_id)
         values
-        (#{planPerDateNo}, #{cost}, #{startTime}, #{endTime}, #{contentId})
+        (#{planPerDateNo}, #{attractionName}, #{cost}, #{startTime}, #{endTime}, #{contentId})
     </insert>
 
 </mapper>
