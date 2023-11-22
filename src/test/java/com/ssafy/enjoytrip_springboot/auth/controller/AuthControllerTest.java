@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ssafy.enjoytrip_springboot.auth.dto.UserLoginRequestDto;
-import com.ssafy.enjoytrip_springboot.auth.jwt.JwtUtil;
+import com.ssafy.enjoytrip_springboot.auth.jwt.legacy.JwtUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,5 +18,5 @@ public class UserInfoDto {
     private String email_id;
     private String email_domain;
     private Timestamp joinedTime;
-    private String userRole;
+    private String roles;
 }

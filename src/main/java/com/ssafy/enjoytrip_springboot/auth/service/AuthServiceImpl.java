@@ -1,42 +1,58 @@
 package com.ssafy.enjoytrip_springboot.auth.service;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.ssafy.enjoytrip_springboot.auth.dto.SaveRefreshTokenDto;
+import com.ssafy.enjoytrip_springboot.auth.dto.TokenDto;
 import com.ssafy.enjoytrip_springboot.auth.dto.UserAuthDto;
 import com.ssafy.enjoytrip_springboot.auth.dto.UserInfoDto;
-import com.ssafy.enjoytrip_springboot.auth.jwt.JwtUtil;
+import com.ssafy.enjoytrip_springboot.auth.jwt.JwtTokenProvider;
 import com.ssafy.enjoytrip_springboot.auth.mapper.AuthMapper;
 import com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto;
 import com.ssafy.enjoytrip_springboot.member.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.security.auth.message.AuthException;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final JwtUtil jwtUtil;
-    private final MemberQueryService queryService;
     private final AuthMapper authMapper;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public UserAuthDto signin(String userId, String password) {
+    @Transactional
+    public TokenDto login(String memberId, String password) {
 
-        GetMemberDto find = queryService.getMember(userId);
+        try {
 
-        if (userId.equals(find.getUserId()) && password.equals(find.getUserPassword())) {
-            // 인증 성공 시 accessToken, refreshToken 생성
-            String accessToken = jwtUtil.createAccessToken(userId);
-            String refreshToken = jwtUtil.createRefreshToken();
-            saveRefreshToken(userId, refreshToken);
+            // Login ID/PW 를 기반으로 Authentication 객체 생성
+            // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
+            System.out.println("Login ID/PW 를 기반으로 Authentication 객체 생성");
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
 
-            return UserAuthDto.builder().userId(userId).accessToken(accessToken).refreshToken(refreshToken).build();
-        } else {
-            throw new RuntimeException("해당 사용자는 없습니다.");
+            // 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
+            // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
+            System.out.println("실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분");
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+            // 인증 정보를 기반으로 JWT 토큰 생성
+            System.out.println("3. 인증 정보를 기반으로 JWT 토큰 생성");
+            TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+
+            SaveRefreshTokenDto saveRefreshTokenDto = SaveRefreshTokenDto.builder()
+                    .refreshToken(tokenDto.getRefreshToken())
+                    .userId(memberId).build();
+
+            authMapper.saveRefreshToken(saveRefreshTokenDto);
+            return tokenDto;
+        } catch (SQLException e) {
+            throw new RuntimeException("login 중 에러");
         }
     }
 

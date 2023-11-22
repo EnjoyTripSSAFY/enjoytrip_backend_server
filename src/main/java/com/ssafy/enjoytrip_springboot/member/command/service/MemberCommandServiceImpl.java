@@ -9,6 +9,7 @@ import com.ssafy.enjoytrip_springboot.member.common.exception.MemberException;
 import com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto;
 import com.ssafy.enjoytrip_springboot.member.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.sql.SQLException;
 @Service
 public class MemberCommandServiceImpl implements MemberCommandService {
 
+    private final PasswordEncoder passwordEncoder;
     private final MemberQueryService queryService;
     private final MemberCommandMapper commandMapper;
 
@@ -42,6 +44,8 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                 throw new MemberException("해당 아이디는 이미 존재합니다.");
             }
 
+            String encodedPassword = passwordEncoder.encode(joinMemberDto.getUserPassword());
+            joinMemberDto.setUserPassword(encodedPassword);
             return commandMapper.joinMember(joinMemberDto);
 
         } catch(SQLException e) {
