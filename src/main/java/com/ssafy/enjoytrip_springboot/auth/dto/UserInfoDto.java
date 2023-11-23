@@ -12,11 +12,12 @@ import java.sql.Timestamp;
 @ToString
 public class UserInfoDto {
 
+    private Long no;
     private String userId;
     private String userPassword;
     private String userName;
-    private String email_id;
-    private String email_domain;
+    private String emailId;
+    private String emailDomain;
     private Timestamp joinedTime;
     private String roles;
 }

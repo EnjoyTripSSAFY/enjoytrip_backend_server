@@ -18,7 +18,7 @@
     </select>
 
     <select id="getInfo" resultType="com.ssafy.enjoytrip_springboot.auth.dto.UserInfoDto">
-        select m.user_id, m.user_password, m.user_name, m.email_id, m.email_domain, m.joined_time, mr.roles
+        select m.no, m.user_id, m.user_password, m.user_name, m.email_id, m.email_domain, m.joined_time, mr.roles
           from members m
           join member_roles mr on (m.user_id = mr.user_id)
          where m.user_id = #{userId}

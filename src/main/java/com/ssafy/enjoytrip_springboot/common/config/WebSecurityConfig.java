@@ -37,10 +37,10 @@ public class WebSecurityConfig {
 //                .cors().and()
 
                 .authorizeRequests()
-                .antMatchers("/auth/member/login", "/member/join", "/auth/member/logout/**").permitAll()
+                .antMatchers("/auth/member/login", "/member/join", "/upload/**", "/auth/member/logout/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/board/**", "/reply/**", "/plan/**").authenticated()
-//                .antMatchers("/board/**", "/reply/**", "/plan/**").permitAll()
+//                .antMatchers("/board/**", "/reply/**", "/plan/**").authenticated()
+                .antMatchers("/board/**", "/reply/**", "/plan/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()
 
