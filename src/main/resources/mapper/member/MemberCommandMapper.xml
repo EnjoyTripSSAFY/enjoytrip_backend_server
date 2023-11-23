@@ -20,6 +20,19 @@
         (#{userId}, #{userName}, #{userPassword}, #{emailId}, #{emailDomain})
     </insert>
 
+    <insert id="grantRole" parameterType="String">
+        insert into member_roles
+            (user_id)
+        values
+            (#{userId})
+    </insert>
+
+    <update id="changeRole" parameterType="com.ssafy.enjoytrip_springboot.member.command.dto.request.ChangeRoleDto">
+        update member_roles
+           set roles = #{roles}
+         where user_id = #{userId}
+    </update>
+
     <update id="deleteMember" parameterType="String">
         update members
            set withdrawal_yn = 1,

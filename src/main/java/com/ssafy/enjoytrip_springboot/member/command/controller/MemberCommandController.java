@@ -1,6 +1,7 @@
 package com.ssafy.enjoytrip_springboot.member.command.controller;
 
 import com.ssafy.enjoytrip_springboot.common.response.SuccessResponse;
+import com.ssafy.enjoytrip_springboot.member.command.dto.request.ChangeRoleDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.JoinMemberDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.LoginRequestDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.UpdateMemberDto;
@@ -26,30 +27,26 @@ public class MemberCommandController {
 
     private final MemberCommandService memberCommandService;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> loginMember(@RequestBody LoginRequestDto loginDto) {
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
-//
-//        Map<String, Object> resultMap = new HashMap<>();
-//        LoginResponseDto memberInfo = memberCommandService.loginMember(loginDto);
-//        resultMap.put("result", memberInfo);
-//
-//        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "login 성공", resultMap));
-//    }
-
     @PostMapping("/join")
     public ResponseEntity<?> joinMember(@RequestBody JoinMemberDto joinMemberDto) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
-        Map<String, Object> resultMap = new HashMap<>();
         int result = memberCommandService.joinMember(joinMemberDto);
-        resultMap.put("result", result);
 
-        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "join 성공", resultMap));
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "join 성공", result));
+    }
+
+    @PutMapping("/changeRole")
+    public ResponseEntity<?> changeRole(@RequestBody ChangeRoleDto changeRoleDto) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        int result = memberCommandService.changeRole(changeRoleDto);
+
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "changeRole 성공", result));
     }
 
     @PutMapping

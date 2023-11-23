@@ -1,5 +1,6 @@
 package com.ssafy.enjoytrip_springboot.member.command.mapper;
 
+import com.ssafy.enjoytrip_springboot.member.command.dto.request.ChangeRoleDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.JoinMemberDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.LoginRequestDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.UpdateMemberDto;
@@ -16,4 +17,8 @@ public interface MemberCommandMapper {
     LoginResponseDto loginMember(LoginRequestDto loginDto) throws SQLException;
     int updateMember(UpdateMemberDto member) throws SQLException;
     int deleteMember(String userId) throws SQLException;
+
+    int grantRole(String userId) throws SQLException;
+
+    int changeRole(ChangeRoleDto changeRoleDto) throws SQLException;
 }

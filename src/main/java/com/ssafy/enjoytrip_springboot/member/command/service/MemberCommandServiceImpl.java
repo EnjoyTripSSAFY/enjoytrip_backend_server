@@ -1,12 +1,10 @@
 package com.ssafy.enjoytrip_springboot.member.command.service;
 
+import com.ssafy.enjoytrip_springboot.member.command.dto.request.ChangeRoleDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.JoinMemberDto;
-import com.ssafy.enjoytrip_springboot.member.command.dto.request.LoginRequestDto;
 import com.ssafy.enjoytrip_springboot.member.command.dto.request.UpdateMemberDto;
-import com.ssafy.enjoytrip_springboot.member.command.dto.response.LoginResponseDto;
 import com.ssafy.enjoytrip_springboot.member.command.mapper.MemberCommandMapper;
 import com.ssafy.enjoytrip_springboot.member.common.exception.MemberException;
-import com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto;
 import com.ssafy.enjoytrip_springboot.member.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,8 +44,12 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
             String encodedPassword = passwordEncoder.encode(joinMemberDto.getUserPassword());
             joinMemberDto.setUserPassword(encodedPassword);
-            return commandMapper.joinMember(joinMemberDto);
+            commandMapper.joinMember(joinMemberDto);
 
+            // 유저 권한 생성
+            commandMapper.grantRole(joinMemberDto.getUserId());
+
+            return 1;
         } catch(SQLException e) {
             throw new MemberException("join error");
         }
@@ -102,5 +104,15 @@ public class MemberCommandServiceImpl implements MemberCommandService {
             throw new MemberException("delete error");
         }
 
+    }
+
+    @Override
+    public int changeRole(ChangeRoleDto changeRoleDto) {
+        try{
+            return commandMapper.changeRole(changeRoleDto);
+
+        } catch(SQLException e) {
+            throw new MemberException("changeRole error");
+        }
     }
 }

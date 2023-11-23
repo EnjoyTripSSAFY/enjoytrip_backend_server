@@ -36,9 +36,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(AuthMemberDto member) {
         return User.builder()
                 .username(member.getUsername())
-                .password(passwordEncoder.encode(member.getPassword()))
+//                .password(passwordEncoder.encode(member.getPassword()))
+                .password(member.getPassword())
                 .roles(member.getRoles())
-//                .roles(member.getRoles().toArray(new String[0]))
                 .build();
     }
 }
