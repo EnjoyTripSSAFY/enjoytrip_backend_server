@@ -64,7 +64,7 @@ public class MemberCommandController {
         return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "update 성공", resultMap));
     }
 
-    @DeleteMapping("/{userId}")
+    @PutMapping("/withdrawal/{userId}")
     public ResponseEntity<?> deleteMember(@PathVariable String userId) {
 
         HttpHeaders headers = new HttpHeaders();

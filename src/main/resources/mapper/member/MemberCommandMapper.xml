@@ -20,10 +20,11 @@
         (#{userId}, #{userName}, #{userPassword}, #{emailId}, #{emailDomain})
     </insert>
 
-    <delete id="deleteMember" parameterType="string">
-        delete from members
-         where user_id = #{userId}
-    </delete>
-
+    <update id="deleteMember" parameterType="String">
+        update members
+           set withdrawal_yn = 1,
+               withdrawal_at = CURRENT_TIMESTAMP
+        where user_id = #{userId}
+    </update>
 
 </mapper>

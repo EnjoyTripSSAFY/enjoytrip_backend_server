@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 @ApiModel
 @Getter
 @Setter
@@ -23,8 +25,12 @@ public class GetMemberDto {
     @ApiModelProperty(value = "이메일 id", required = true)
     private String emailId;
     @ApiModelProperty(value = "이메일 domain", required = true)
-    private String email_domain;
+    private String emailDomain;
     @ApiModelProperty(value = "가입일", required = true)
     private String joinedTime;
+    @ApiModelProperty(value = "탈퇴여부", required = true)
+    private int withdrawalYn;
+    @ApiModelProperty(value = "탈퇴일자", required = true)
+    private Timestamp withdrawalAt;
 
 }

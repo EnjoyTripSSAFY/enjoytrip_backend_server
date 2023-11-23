@@ -8,7 +8,10 @@ import com.ssafy.enjoytrip_springboot.auth.dto.UserAuthDto;
 import com.ssafy.enjoytrip_springboot.auth.dto.UserInfoDto;
 import com.ssafy.enjoytrip_springboot.auth.jwt.JwtTokenProvider;
 import com.ssafy.enjoytrip_springboot.auth.mapper.AuthMapper;
+import com.ssafy.enjoytrip_springboot.member.command.mapper.MemberCommandMapper;
+import com.ssafy.enjoytrip_springboot.member.common.exception.MemberException;
 import com.ssafy.enjoytrip_springboot.member.query.dto.response.GetMemberDto;
+import com.ssafy.enjoytrip_springboot.member.query.mapper.MemberQueryMapper;
 import com.ssafy.enjoytrip_springboot.member.query.service.MemberQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,32 +28,42 @@ public class AuthServiceImpl implements AuthService {
     private final AuthMapper authMapper;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final MemberQueryMapper memberQueryMapper;
 
     @Transactional
     public TokenDto login(String memberId, String password) {
 
         try {
 
-            // Login ID/PW 를 기반으로 Authentication 객체 생성
-            // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
-            System.out.println("Login ID/PW 를 기반으로 Authentication 객체 생성");
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
+            GetMemberDto find = memberQueryMapper.getMember(memberId);
 
-            // 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
-            // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
-            System.out.println("실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분");
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            // 탈퇴여부가 false인 경우
+            if(find.getWithdrawalYn() == 0){
 
-            // 인증 정보를 기반으로 JWT 토큰 생성
-            System.out.println("3. 인증 정보를 기반으로 JWT 토큰 생성");
-            TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+                // Login ID/PW 를 기반으로 Authentication 객체 생성
+                // 이때 authentication 는 인증 여부를 확인하는 authenticated 값이 false
+                System.out.println("Login ID/PW 를 기반으로 Authentication 객체 생성");
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberId, password);
 
-            SaveRefreshTokenDto saveRefreshTokenDto = SaveRefreshTokenDto.builder()
-                    .refreshToken(tokenDto.getRefreshToken())
-                    .userId(memberId).build();
+                // 실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분
+                // authenticate 매서드가 실행될 때 CustomUserDetailsService 에서 만든 loadUserByUsername 메서드가 실행
+                System.out.println("실제 검증 (사용자 비밀번호 체크)이 이루어지는 부분");
+                Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-            authMapper.saveRefreshToken(saveRefreshTokenDto);
-            return tokenDto;
+                // 인증 정보를 기반으로 JWT 토큰 생성
+                System.out.println("3. 인증 정보를 기반으로 JWT 토큰 생성");
+                TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+
+                SaveRefreshTokenDto saveRefreshTokenDto = SaveRefreshTokenDto.builder()
+                        .refreshToken(tokenDto.getRefreshToken())
+                        .userId(memberId).build();
+
+                authMapper.saveRefreshToken(saveRefreshTokenDto);
+                return tokenDto;
+            } else{
+                throw new MemberException("이미 탈퇴된 회원입니다.");
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("login 중 에러");
         }
@@ -87,6 +100,7 @@ public class AuthServiceImpl implements AuthService {
 
         try{
             authMapper.removeRefreshToken(userId);
+
         } catch(SQLException e) {
             throw new RuntimeException("logout 에러");
         }
