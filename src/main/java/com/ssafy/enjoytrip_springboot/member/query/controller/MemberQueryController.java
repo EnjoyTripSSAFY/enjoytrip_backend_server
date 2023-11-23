@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class MemberQueryController {
     public ResponseEntity<?> getMember(@PathVariable("userId") String userId) {
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
 
         GetMemberDto find = queryService.getMember(userId);
 

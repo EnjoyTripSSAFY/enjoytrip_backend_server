@@ -1,6 +1,6 @@
 package com.ssafy.enjoytrip_springboot.common.jwt;
 
-import com.ssafy.enjoytrip_springboot.auth.jwt.JwtUtil;
+import com.ssafy.enjoytrip_springboot.auth.jwt.legacy.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
