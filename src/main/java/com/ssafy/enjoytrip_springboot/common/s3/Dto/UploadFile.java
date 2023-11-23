@@ -9,8 +9,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class UploadFile {
     private int no;
-    private Integer hotplaceNo;
-    private Integer boardNo;
     private String originalFile;
     private String saveFile;
 }

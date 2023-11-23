@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip_springboot.hotplace.command.mapper.HotPlaceCommandMapper">
+    <insert id="registHotPlace" parameterType="com.ssafy.enjoytrip_springboot.hotplace.common.dto.HotPlaceDto"
+            useGeneratedKeys="true"  keyProperty="no" keyColumn="no">
+        INSERT INTO hotplace (user_id, title, describ, rate, visited_time, content_type, registered_time, longitude, latitude)
+        VALUES (#{title}, #{title}, #{describe}, #{rate}, #{visitedTime}, #{contentType}, #{registeredTime}, #{longitude}, #{latitude})
+    </insert>
+
+    <insert id="registHotPlaceImageList" parameterType="com.ssafy.enjoytrip_springboot.hotplace.common.dto.HotPlaceDto">
+        INSERT INTO hotplace_image_list (hotplace_no, file_info_no) VALUES
+        <foreach collection="imageId" item="image" separator=",">
+            (#{no}, #{image})
+        </foreach>
+    </insert>
+
+    <update id="updateHotplace" parameterType="com.ssafy.enjoytrip_springboot.hotplace.common.dto.HotPlaceDto"
+            keyProperty="no" keyColumn="no">
+            UPDATE hotplace
+            SET
+                title = #{title},
+                describ = #{describe},
+                rate = #{rate},
+                visited_time = #{visitedTime},
+                content_type = #{contentType},
+                registered_time = #{registeredTime},
+                longitude = #{longitude},
+                latitude = #{latitude}
+            WHERE
+                user_id = #{userId} AND no = #{no}
+    </update>
+
+    <delete id="deleteHotplaceImageList" parameterType="com.ssafy.enjoytrip_springboot.hotplace.common.dto.HotPlaceDto">
+        DELETE FROM hotplace_image_list WHERE hotplace_no = #{no}
+    </delete>
+
+    <delete id="deleteHotPlace" parameterType="long">
+        DELETE FROM hotplace WHERE no = #{no}
+    </delete>
+
+</mapper>
