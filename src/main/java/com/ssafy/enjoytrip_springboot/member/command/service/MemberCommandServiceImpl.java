@@ -85,6 +85,9 @@ public class MemberCommandServiceImpl implements MemberCommandService {
                 throw new MemberException("해당 id의 사용자가 없습니다.");
             }
 
+            String encodedPassword = passwordEncoder.encode(updateMemberDto.getUserPassword());
+            updateMemberDto.setUserPassword(encodedPassword);
+
             return commandMapper.updateMember(updateMemberDto);
 
 
