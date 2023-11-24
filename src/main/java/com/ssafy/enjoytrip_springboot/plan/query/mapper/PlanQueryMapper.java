@@ -13,4 +13,6 @@ public interface PlanQueryMapper {
     List<listTripPlanResDto> listTripPlan(Long userNo) throws SQLException;
 
     List<listPlanPerDateJoinDetailList> listPlanPerDateAndDetail(Long tripPlanNo) throws SQLException;
+
+    Long getBiggestPlanPerDateNo();
 }

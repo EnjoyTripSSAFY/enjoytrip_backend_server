@@ -42,4 +42,19 @@ public class PlanQueryServiceImpl implements PlanQueryService{
             throw new PlanException("세부 계획 조회 실패");
         }
     }
+
+    @Override
+    public Long getBiggestPlanPerDateNo() {
+
+        try {
+
+            System.out.println("getBiggestPlanPerDateNo enter!");
+            Long biggestPlanPerDateNo = planQueryMapper.getBiggestPlanPerDateNo();
+            System.out.println("biggestPlanPerDateNo" + biggestPlanPerDateNo);
+            return biggestPlanPerDateNo + 1;
+
+        } catch (Exception e){
+            throw new PlanException("번호 조회 실패");
+        }
+    }
 }

@@ -19,6 +19,12 @@
         </collection>
     </resultMap>
 
+    <select id="getBiggestPlanPerDateNo" resultType="Long">
+        select max(distinct trip_plan_no)
+          from plan_per_date
+         order by trip_plan_no desc
+    </select>
+
     <select id="listTripPlan" parameterType="Long" resultType="com.ssafy.enjoytrip_springboot.plan.query.dto.response.listTripPlanResDto">
         select no, title, describ, created_time
           from trip_plan

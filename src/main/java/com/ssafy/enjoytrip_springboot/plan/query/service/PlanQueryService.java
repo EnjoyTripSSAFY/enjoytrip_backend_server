@@ -11,4 +11,6 @@ public interface PlanQueryService {
     List<listTripPlanResDto> listTripPlan(Long userNo);
 
     List<listPlanPerDateJoinDetailList> listPlanPerDateAndDetail(Long tripPlanNo);
+
+    Long getBiggestPlanPerDateNo();
 }

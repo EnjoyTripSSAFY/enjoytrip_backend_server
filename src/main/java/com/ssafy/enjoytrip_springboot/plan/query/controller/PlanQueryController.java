@@ -41,6 +41,17 @@ public class PlanQueryController {
         return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "여행계획 리스트 조회 성공", resultList));
     }
 
+    @GetMapping("/getNo")
+    public ResponseEntity<?> getBiggestPlanPerDateNo() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+
+        Long biggestPlanPerDateNo = planQueryService.getBiggestPlanPerDateNo();
+
+        return ResponseEntity.ok().body(new SuccessResponse(HttpStatus.OK, "가장 큰 일자별 여행 번호 + 1 반환", biggestPlanPerDateNo));
+    }
+
     @GetMapping("/detail/{tripPlanNo}")
     public ResponseEntity<?> listPlanPerDateAndDetail(@PathVariable("tripPlanNo") Long tripPlanNo) {
 
